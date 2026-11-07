@@ -1,23 +1,19 @@
 # SMSGate Android APK
 
-Public download repository for the Android builds of **SMSGate**.
+Public Android download repository for **SMSGate**.
 
 ## Download
 
-**[Latest SMSGate APK](https://github.com/tihloh/SMSGate-apk/releases/latest/download/SMSGate-debug.apk)**
+- **[Latest signed SMSGate APK](https://github.com/tihloh/SMSGate-apk/releases/latest/download/SMSGate.apk)** — becomes available when the first versioned signed build is published.
+- [Existing v0.3.16 development/debug APK](https://github.com/tihloh/SMSGate-apk/releases/download/debug-5-1/SMSGate-debug.apk) — older debug build; cannot reliably update in place.
+- [All releases](https://github.com/tihloh/SMSGate-apk/releases)
 
-Browse the [release history](https://github.com/tihloh/SMSGate-apk/releases) for older APKs.
+## Auto-updates
 
-The latest-download link becomes available when the first build is published.
+SMSGate checks this repository's GitHub Releases for versioned releases, such as `v0.3.17.8`, that contain `SMSGate.apk`. The app verifies its application ID, signing certificate, and increasing Android versionCode before starting an Android PackageInstaller session. Android may still require the user to approve installation.
 
-## About these builds
+Only APKs signed with the **same persistent certificate** can update an installed SMSGate copy in place. The old debug APK was built using a temporary signing key. Switching from that build to the signed release channel may require a one-time uninstall; uninstalling can erase app settings and queued data. Back up or reconcile pending gateway work before doing that.
 
-These are **development/debug builds**, produced automatically from the private SMSGate source repository after Android compilation and unit tests succeed. They are **not production-certified or Google Play-approved releases**.
+Signed publication from the private source repo is enabled when all four signing secrets (`ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD`) and the `SMSGATE_APK_PUSH_TOKEN` are available. Debug APKs remain in the private repository's GitHub Actions artifacts.
 
-Android may require you to allow installation from your browser or file manager. Only install APKs you trust.
-
-**Updates and signing:** Android only installs an APK over an existing installation when the package ID and signing certificate match and the versionCode is not lower. A GitHub Actions debug build may be signed with an ephemeral debug key on each runner unless a persistent signing key is configured. In that case, uninstalling the previous installation could be required, and uninstalling can erase local app data. For reliable in-place updates, configure persistent signing in the private build workflow and increment the Android versionCode appropriately.
-
-## Source and publishing
-
-The source repository is private. Successful builds from its `main` branch can publish an APK as a GitHub Release in this repository. Releasing requires a GitHub Actions secret granting narrowly scoped write access to this repository.
+These are sideloaded development builds, not Google Play-approved or production-certified releases. SMS permission eligibility and real-device carrier testing are separate requirements.
